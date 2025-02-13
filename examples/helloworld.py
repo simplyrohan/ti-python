@@ -1,5 +1,6 @@
 print("Hello, World!")
 
-x = input('Hello WOrld!')
+x = input('X: ')
 
-print(x)
+print("You set X to", x)
+

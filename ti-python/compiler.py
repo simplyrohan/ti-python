@@ -45,6 +45,8 @@ def flatten_assign(assign: ast.Assign):
             value = get_name(assign.value)
         case ast.Call:
             value = flatten_expression(assign)
+            if value[0] == "Input":
+                return generate.call_func("Input", value[1] + [target])
 
     return generate.store_var(target, value)
 
@@ -52,7 +54,7 @@ def compile(tree: ast.Module):
     compiled = ""
     for item in tree.body:
         if type(item) == ast.Expr:
-            compiled += generate.call_func(flatten_expression(item))  + "\n"
+            compiled += generate.call_func(*flatten_expression(item))  + "\n"
         
         if type(item) == ast.Assign:
             compiled += flatten_assign(item) + "\n"
