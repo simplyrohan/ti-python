@@ -3,7 +3,7 @@ import ast
 from . import generate
 from .globals import *
 
-builtins = {"print": "Disp"}
+builtins = {"print": "Disp"} # Not common, but there may be functions that can be mapped directly to TI-BASIC functions
 
 variables = {}
 
@@ -27,11 +27,21 @@ def flatten_expression(expression: ast.Expr):
         else:
             return generate.call_func(function_name, function_args)
 
+def flatten_assign(assign: ast.Assign):
+    # No support for multiple targets or values. Single target and value only.
+
+    target = get_name(assign.targets[0])
+    value = get_name(assign.value)
+
+    return generate.store_var(target, value)
+
 def compile(tree: ast.Module):
     compiled = ""
     for item in tree.body:
-        print(item)
         if type(item) == ast.Expr:
             compiled += flatten_expression(item) + "\n"
+        
+        if type(item) == ast.Assign:
+            compiled += flatten_assign(item) + "\n"
     
     return compiled

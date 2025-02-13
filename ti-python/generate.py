@@ -15,3 +15,6 @@ def call_func(name: str, args: list[Type] = None):
             elif type(arg) == Var:
                 arguments.append(arg.value)
     return f":{name} {" ".join(arguments)}"
+
+def store_var(name: Var, value: Type):
+    return f":{value.value}→{name.value.upper()}"
