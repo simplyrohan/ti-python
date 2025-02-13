@@ -1,5 +1,5 @@
 print("Hello, World!")
 
-x = 5
+x = input('Hello WOrld!')
 
 print(x)
