@@ -20,9 +20,9 @@ def call_func(call: types.Call):
 
 def assign_val(assign: types.Assign):
     if type(assign.value) == types.Number:
-        return f"{assign.value.value}→{assign.target.value.upper()}"
+        return f"{assign.value.value}->{assign.target.value.upper()}"
     elif type(assign.value) == types.Call:
-        return f"{call_func(assign.value)}→{assign.target.value.upper()}"
+        return f"{call_func(assign.value)}->{assign.target.value.upper()}"
     elif issubclass(type(assign.value), types.Op):
         match type(assign.value):
             case types.Add:

@@ -36,7 +36,7 @@ def flatten_value(value: ast.Constant | ast.Name | ast.Call | ast.BinOp) -> type
             return types.Add(flatten_value(value.left), flatten_value(value.right))
         elif type(value.op) == ast.Sub:
             return types.Sub(flatten_value(value.left), flatten_value(value.right))
-        elif type(value.op) == ast.Mul:
+        elif type(value.op) == ast.Mult:
             return types.Mul(flatten_value(value.left), flatten_value(value.right))
         elif type(value.op) == ast.Div:
             return types.Div(flatten_value(value.left), flatten_value(value.right))
