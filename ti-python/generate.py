@@ -16,7 +16,7 @@ def call_func(call: types.Call):
                 arguments.append(str(arg.value))
             elif type(arg) == types.Name:
                 arguments.append(arg.value.upper())
-    return f"{call.value} {",".join(arguments)}"
+    return f"{call.value} {','.join(arguments)}"
 
 def assign_val(assign: types.Assign):
     if type(assign.value) == types.Number:

@@ -3,10 +3,10 @@ import argparse
 
 from . import tokenizer, compiler
 
-parser = argparse.ArgumentParser()
+parser = argparse.ArgumentParser(prog="ti-python", description="Compile Python code to TI-BASIC code", epilog="Made by @simplyrohan", usage="%(prog)s [-o output.txt] input.py")
 
 parser.add_argument('input', type=str, help="Path to input Python file")
-parser.add_argument('--output', type=str, help="Output TI-BASIC file", required=False, default=None)
+parser.add_argument('-o', '--output', type=str, help="Output TI-BASIC file", required=False, default=None)
 
 if __name__ == "__main__":
     args = parser.parse_args()
@@ -18,7 +18,7 @@ if __name__ == "__main__":
     
     tree = tokenizer.parse(input_file.read_text())
     
-    output_path = pathlib.Path(args.output if args.output else input_file.name.removesuffix('.py') + '.8xp')
+    output_path = pathlib.Path(args.output if args.output else input_file.name.removesuffix('.py') + '.txt')
     
     output_path.write_text(compiler.compile(tree))
 

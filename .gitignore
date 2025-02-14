@@ -172,3 +172,4 @@ cython_debug/
 
 *.8xp
 *.8XP
+*.txt
