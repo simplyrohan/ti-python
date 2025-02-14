@@ -41,20 +41,27 @@ def flatten_value(value: ast.Constant | ast.Name | ast.Call | ast.BinOp) -> type
         elif type(value.op) == ast.Div:
             return types.Div(flatten_value(value.left), flatten_value(value.right))
 
-    elif type(value) == ast.Assign:
+def flatten_command(command: ast.AST):
+    "This to to convert non-value items into an object (eg. Assigment, Loop, etc)"
+    if type(command) == ast.Assign:
         # No support for multiple targets or values. Single target and value only.
-        target = flatten_value(value.targets[0])
-        var_value = flatten_value(value.value)
+        target = flatten_value(command.targets[0])
+        var_value = flatten_value(command.value)
 
-        if type(value) == types.Call and var_value.value == "Input":
+        if type(command) == types.Call and var_value.value == "Input":
             return types.Call("Input", var_value.args + [target])
         return types.Assign(target, var_value)
 
+    elif type(command) == ast.Expr:
+        return flatten_value(command.value)
+
+    elif type(command) == ast.Call:
+        return flatten_value(command)
 
 def compile(tree: ast.Module):
     compiled = ""
     for item in tree.body:
-        command = flatten_value(item)
+        command = flatten_command(item)
 
         if type(command) == types.Assign:
             compiled += generate.assign_val(command) + "\n"
