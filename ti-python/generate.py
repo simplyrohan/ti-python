@@ -1,28 +1,36 @@
 """
 Generates TI-BASIC commands from parameters
 """
-from .globals import *
+from . import types
 
-def _call_func(name, args: list[Type] = None):
+    
+
+def call_func(call: types.Call):
     arguments = []
 
-    if args:
-        for arg in args:
-            if type(arg) == Str:
+    if call.args:
+        for arg in call.args:
+            if type(arg) == types.Str:
                 arguments.append(f'"{arg.value}"')
-            elif type(arg) == Number:
+            elif type(arg) == types.Number:
                 arguments.append(str(arg.value))
-            elif type(arg) == Var:
+            elif type(arg) == types.Name:
                 arguments.append(arg.value.upper())
-    return f"{name} {",".join(arguments)}"
+    return f"{call.value} {",".join(arguments)}"
 
-def call_func(name: str, args: list[Type] = None):
-    return _call_func(name, args)
-
-def store_var(name: Var, value: Type):
-    if type(value) == Number:
-        return f"{value.value}→{name.value.upper()}"
-    elif type(value) == tuple:
-        return f"{_call_func(value[0], value[1])}→{name.value.upper()}"
-    elif type(value) == Var:
-        return f"{value.value}→{name.value.upper()}"
+def assign_val(assign: types.Assign):
+    if type(assign.value) == types.Number:
+        return f"{assign.value.value}→{assign.target.value.upper()}"
+    elif type(assign.value) == types.Call:
+        return f"{call_func(assign.value)}→{assign.target.value.upper()}"
+    elif issubclass(type(assign.value), types.Op):
+        match type(assign.value):
+            case types.Add:
+                op = "+"
+            case types.Sub:
+                op = "-"
+            case types.Mul:
+                op = "*"
+            case types.Div:
+                op = "/"
+        return f"{assign.value.left.value}{op}{assign.value.right.value}→{assign.target.value.upper()}"

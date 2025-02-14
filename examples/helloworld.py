@@ -1,4 +1,7 @@
 print("Hello, World!")
+
 x = 10
-z = x + 10
-print("You set X to", z)
+y = input("Enter a number: ")
+x = x + y
+
+print(x)

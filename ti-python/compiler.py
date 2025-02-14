@@ -1,71 +1,64 @@
 """
-Core converter from Python to TI-BASIC commands
+Core converter from Python to a TI-BASIC representation to be used in the `generate` module
 """
 
 import ast
 
-from . import generate
-from .globals import *
+from . import generate, types
 
 builtins = {
     "print": "Disp",
     "input": "Input",
 }  # Not common, but there may be functions that can be mapped directly to TI-BASIC functions
 
-variables = {}
 
+def flatten_value(value: ast.Constant | ast.Name | ast.Call | ast.BinOp) -> types.Type | types.Call | types.Assign:
+    "Converts any constant, variable, or expression (and their children) into a single `Type` object"
 
-def get_name(node: ast.Name | ast.Constant):
-    if type(node) == ast.Name:
-        return Var(node.id)
-    elif type(node) == ast.Constant:
-        if type(node.value) == str:
-            return Str(node.value)
-        elif type(node.value) == int:
-            return Number(node.value)
+    if type(value) == ast.Constant:
+        return types.Str(value.value) if type(value.value) == str else types.Number(value.value)
 
+    elif type(value) == ast.Name:
+        return types.Name(value.id)
 
-def flatten_expression(expression: ast.Expr):
-    if type(expression.value) == ast.Call:
-        function_name = expression.value.func.id
+    elif type(value) == ast.Expr:
+        return flatten_value(value.value)
 
-        function_args = [get_name(arg) for arg in expression.value.args]
+    elif type(value) == ast.Call:
+        func = (
+            value.func.id if value.func.id not in builtins else builtins[value.func.id]
+        )
+        args = [flatten_value(arg) for arg in value.args]
+        return types.Call(func, args)
 
-        if function_name in builtins:
-            return builtins[function_name], function_args
-        else:
-            return function_name, function_args
+    elif type(value) == ast.BinOp:
+        if type(value.op) == ast.Add:
+            return types.Add(flatten_value(value.left), flatten_value(value.right))
+        elif type(value.op) == ast.Sub:
+            return types.Sub(flatten_value(value.left), flatten_value(value.right))
+        elif type(value.op) == ast.Mul:
+            return types.Mul(flatten_value(value.left), flatten_value(value.right))
+        elif type(value.op) == ast.Div:
+            return types.Div(flatten_value(value.left), flatten_value(value.right))
 
+    elif type(value) == ast.Assign:
+        # No support for multiple targets or values. Single target and value only.
+        target = flatten_value(value.targets[0])
+        var_value = flatten_value(value.value)
 
-def flatten_op(op: ast.BinOp):
-    match type(op.op):
-        case ast.Add:
-            return f"{get_name(op.left).value}+{get_name(op.right).value}" # This should definitely be moved to `generate.py` but it seems like overkill...
-
-
-def flatten_assign(assign: ast.Assign):
-    # No support for multiple targets or values. Single target and value only.
-
-    target = get_name(assign.targets[0])
-    match type(assign.value):
-        case ast.Name | ast.Constant:
-            value = get_name(assign.value)
-        case ast.Call:
-            value = flatten_expression(assign)
-            if value[0] == "Input":
-                return generate.call_func("Input", value[1] + [target])
-        case ast.BinOp:
-            value = Var(flatten_op(assign.value))
-    return generate.store_var(target, value)
+        if type(value) == types.Call and var_value.value == "Input":
+            return types.Call("Input", var_value.args + [target])
+        return types.Assign(target, var_value)
 
 
 def compile(tree: ast.Module):
     compiled = ""
     for item in tree.body:
-        if type(item) == ast.Expr:
-            compiled += generate.call_func(*flatten_expression(item)) + "\n"
+        command = flatten_value(item)
 
-        if type(item) == ast.Assign:
-            compiled += flatten_assign(item) + "\n"
+        if type(command) == types.Assign:
+            compiled += generate.assign_val(command) + "\n"
+        elif type(command) == types.Call:
+            compiled += generate.call_func(command) + "\n"
 
     return compiled
