@@ -31,11 +31,6 @@ def flatten_expression(expression: ast.Expr):
 
         function_args = [get_name(arg) for arg in expression.value.args]
 
-        # if function_name in builtins:
-        #     return generate.call_func(builtins[function_name], function_args)
-        # else:
-        #     return generate.call_func(function_name, function_args)
-
         if function_name in builtins:
             return builtins[function_name], function_args
         else:
@@ -43,10 +38,9 @@ def flatten_expression(expression: ast.Expr):
 
 
 def flatten_op(op: ast.BinOp):
-    print(get_name(op.left), get_name(op.right), op.op)
     match type(op.op):
         case ast.Add:
-            return f"{get_name(op.left).value} + {get_name(op.right).value}"
+            return f"{get_name(op.left).value}+{get_name(op.right).value}" # This should definitely be moved to `generate.py` but it seems like overkill...
 
 
 def flatten_assign(assign: ast.Assign):
