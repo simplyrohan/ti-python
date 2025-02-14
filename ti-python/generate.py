@@ -33,4 +33,4 @@ def assign_val(assign: types.Assign):
                 op = "*"
             case types.Div:
                 op = "/"
-        return f"{assign.value.left.value}{op}{assign.value.right.value}→{assign.target.value.upper()}"
+        return f"{assign.value.left.value}{op}{assign.value.right.value}->{assign.target.value.upper()}"

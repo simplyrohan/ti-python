@@ -19,7 +19,7 @@ def flatten_value(value: ast.Constant | ast.Name | ast.Call | ast.BinOp) -> type
         return types.Str(value.value) if type(value.value) == str else types.Number(value.value)
 
     elif type(value) == ast.Name:
-        return types.Name(value.id)
+        return types.Name(value.id.upper())
 
     elif type(value) == ast.Expr:
         return flatten_value(value.value)
