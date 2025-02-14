@@ -1,9 +1,9 @@
 """
 Generates TI-BASIC commands from parameters
 """
+
 from . import types
 
-    
 
 def call_func(call: types.Call):
     arguments = []
@@ -17,6 +17,7 @@ def call_func(call: types.Call):
             elif type(arg) == types.Name:
                 arguments.append(arg.value.upper())
     return f"{call.value} {','.join(arguments)}"
+
 
 def assign_val(assign: types.Assign):
     if type(assign.value) == types.Number:
@@ -34,3 +35,23 @@ def assign_val(assign: types.Assign):
             case types.Div:
                 op = "/"
         return f"{assign.value.left.value}{op}{assign.value.right.value}->{assign.target.value.upper()}"
+
+
+def create_block(block: types.Block):
+    if issubclass(type(block), types.If):
+        comp = ""
+        match type(block.head):
+            case types.LessThan:
+                comp = "<"
+        return f":If {block.head.left.value}{comp}{block.head.right.value}\n{"\n".join([create_command(comm) for comm in block.body])}\n:End"
+
+
+def create_command(command: types.Assign | types.Call | types.Block):
+    if type(command) == types.Assign:
+        return assign_val(command) + "\n"
+    elif type(command) == types.Call:
+        return call_func(command) + "\n"
+    elif issubclass(type(command), types.Block):
+        return create_block(command) + "\n"
+    
+    return "\n"

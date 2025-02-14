@@ -40,6 +40,10 @@ def flatten_value(value: ast.Constant | ast.Name | ast.Call | ast.BinOp) -> type
             return types.Mul(flatten_value(value.left), flatten_value(value.right))
         elif type(value.op) == ast.Div:
             return types.Div(flatten_value(value.left), flatten_value(value.right))
+        
+    elif type(value) == ast.Compare:
+        if type(value.ops[0]) == ast.Lt:
+            return types.LessThan(flatten_value(value.left), flatten_value(value.comparators[0]))
 
 def flatten_command(command: ast.AST):
     "This to to convert non-value items into an object (eg. Assigment, Loop, etc)"
@@ -58,14 +62,17 @@ def flatten_command(command: ast.AST):
     elif type(command) == ast.Call:
         return flatten_value(command)
 
+    elif type(command) == ast.If:
+        # ast.While.test
+        comparison = flatten_value(command.test)
+
+        body = [flatten_command(comm) for comm in command.body]  
+
+        return types.If(comparison, body)
+
 def compile(tree: ast.Module):
     compiled = ""
     for item in tree.body:
         command = flatten_command(item)
-
-        if type(command) == types.Assign:
-            compiled += generate.assign_val(command) + "\n"
-        elif type(command) == types.Call:
-            compiled += generate.call_func(command) + "\n"
-
+        compiled += generate.create_command(command)
     return compiled

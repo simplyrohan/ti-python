@@ -15,11 +15,13 @@ See `examples/` for example programs
  - `print` and `input`
  - Integer variables
  - Basic arithmetic
+ - Basic If statements
 
 ## Restrictions
 Your Python code still has to follow some restrictions due to the nature of the TI-BASIC.
  - One letter variables names (this may be fixed soon) 
  - Using `print` with commas will not insert spaces in-between 
+ - The `input` function doesn't always return Strings, they can be numbers
 
 These are known and intentional restrictions, but this compiler is still in development so of course you will still have *many* problems
 
