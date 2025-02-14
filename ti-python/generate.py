@@ -24,3 +24,5 @@ def store_var(name: Var, value: Type):
         return f":{value.value}→{name.value.upper()}"
     elif type(value) == tuple:
         return f":{_call_func(value[0], value[1])}→{name.value.upper()}"
+    elif type(value) == Var:
+        return f":{value.value}→{name.value.upper()}"

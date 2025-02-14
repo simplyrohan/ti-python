@@ -1,14 +1,19 @@
 """
 Core converter from Python to TI-BASIC commands
 """
+
 import ast
 
 from . import generate
 from .globals import *
 
-builtins = {"print": "Disp", "input": "Input"} # Not common, but there may be functions that can be mapped directly to TI-BASIC functions
+builtins = {
+    "print": "Disp",
+    "input": "Input",
+}  # Not common, but there may be functions that can be mapped directly to TI-BASIC functions
 
 variables = {}
+
 
 def get_name(node: ast.Name | ast.Constant):
     if type(node) == ast.Name:
@@ -18,6 +23,7 @@ def get_name(node: ast.Name | ast.Constant):
             return Str(node.value)
         elif type(node.value) == int:
             return Number(node.value)
+
 
 def flatten_expression(expression: ast.Expr):
     if type(expression.value) == ast.Call:
@@ -36,6 +42,13 @@ def flatten_expression(expression: ast.Expr):
             return function_name, function_args
 
 
+def flatten_op(op: ast.BinOp):
+    print(get_name(op.left), get_name(op.right), op.op)
+    match type(op.op):
+        case ast.Add:
+            return f"{get_name(op.left).value} + {get_name(op.right).value}"
+
+
 def flatten_assign(assign: ast.Assign):
     # No support for multiple targets or values. Single target and value only.
 
@@ -47,16 +60,18 @@ def flatten_assign(assign: ast.Assign):
             value = flatten_expression(assign)
             if value[0] == "Input":
                 return generate.call_func("Input", value[1] + [target])
-
+        case ast.BinOp:
+            value = Var(flatten_op(assign.value))
     return generate.store_var(target, value)
+
 
 def compile(tree: ast.Module):
     compiled = ""
     for item in tree.body:
         if type(item) == ast.Expr:
-            compiled += generate.call_func(*flatten_expression(item))  + "\n"
-        
+            compiled += generate.call_func(*flatten_expression(item)) + "\n"
+
         if type(item) == ast.Assign:
             compiled += flatten_assign(item) + "\n"
-    
+
     return compiled
