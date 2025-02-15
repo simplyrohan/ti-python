@@ -63,12 +63,18 @@ def flatten_command(command: ast.AST):
         return flatten_value(command)
 
     elif type(command) == ast.If:
-        # ast.While.test
         comparison = flatten_value(command.test)
 
         body = [flatten_command(comm) for comm in command.body]  
 
         return types.If(comparison, body)
+
+    elif type(command) == ast.While:
+        comparison = flatten_value(command.test)
+
+        body = [flatten_command(comm) for comm in command.body]  
+
+        return types.While(comparison, body)
 
 def compile(tree: ast.Module):
     compiled = ""

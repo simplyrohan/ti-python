@@ -21,9 +21,9 @@ def call_func(call: types.Call):
 
 def assign_val(assign: types.Assign):
     if type(assign.value) == types.Number:
-        return f"{assign.value.value}->{assign.target.value.upper()}"
+        return f"{assign.value.value}→{assign.target.value.upper()}"
     elif type(assign.value) == types.Call:
-        return f"{call_func(assign.value)}->{assign.target.value.upper()}"
+        return f"{call_func(assign.value)}→{assign.target.value.upper()}"
     elif issubclass(type(assign.value), types.Op):
         match type(assign.value):
             case types.Add:
@@ -34,7 +34,7 @@ def assign_val(assign: types.Assign):
                 op = "*"
             case types.Div:
                 op = "/"
-        return f"{assign.value.left.value}{op}{assign.value.right.value}->{assign.target.value.upper()}"
+        return f"{assign.value.left.value}{op}{assign.value.right.value}→{assign.target.value.upper()}"
 
 
 def create_block(block: types.Block):
@@ -44,7 +44,12 @@ def create_block(block: types.Block):
             case types.LessThan:
                 comp = "<"
         return f"If {block.head.left.value}{comp}{block.head.right.value}\nThen\n{"\n".join([create_command(comm) for comm in block.body])}\nEnd"
-
+    elif issubclass(type(block), types.While):
+        comp = ""
+        match type(block.head):
+            case types.LessThan:
+                comp = "<"
+        return f"While {block.head.left.value}{comp}{block.head.right.value}\n{"".join([create_command(comm) for comm in block.body])}End"
 
 def create_command(command: types.Assign | types.Call | types.Block):
     if type(command) == types.Assign:

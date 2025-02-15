@@ -46,6 +46,8 @@ class Block:
 class If(Block):
     pass
 
+class While(Block):
+    pass
 
 # ---- Operations
 @dataclasses.dataclass
