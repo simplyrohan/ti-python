@@ -43,7 +43,7 @@ def create_block(block: types.Block):
         match type(block.head):
             case types.LessThan:
                 comp = "<"
-        return f":If {block.head.left.value}{comp}{block.head.right.value}\n{"\n".join([create_command(comm) for comm in block.body])}\n:End"
+        return f"If {block.head.left.value}{comp}{block.head.right.value}\nThen\n{"\n".join([create_command(comm) for comm in block.body])}\nEnd"
 
 
 def create_command(command: types.Assign | types.Call | types.Block):
