@@ -82,3 +82,15 @@ class LessThan(Comp):
 
 class GreaterThan(Comp):
     pass
+
+class EqualTo(Comp):
+    pass
+
+class NotEqualTo(Comp):
+    pass
+
+class LessThanEqualTo(Comp):
+    pass
+
+class GreaterThanEqualTo(Comp):
+    pass

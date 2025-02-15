@@ -16,6 +16,8 @@ See `examples/` for example programs
  - Integer variables
  - Basic arithmetic
  - Basic If statements
+ - Comparisons
+ - While loops
 
 ## Restrictions
 Your Python code still has to follow some restrictions due to the nature of the TI-BASIC.

@@ -43,12 +43,33 @@ def create_block(block: types.Block):
         match type(block.head):
             case types.LessThan:
                 comp = "<"
+            case types.GreaterThan:
+                comp = ">"
+            case types.EqualTo:
+                comp = "="
+            case types.NotEqualTo:
+                comp = "≠"
+            case types.LessThanEqualTo:
+                comp = "≤"
+            case types.GreaterThanEqualTo:
+                comp = "≥"
+
         return f"If {block.head.left.value}{comp}{block.head.right.value}\nThen\n{"\n".join([create_command(comm) for comm in block.body])}\nEnd"
     elif issubclass(type(block), types.While):
         comp = ""
         match type(block.head):
             case types.LessThan:
                 comp = "<"
+            case types.GreaterThan:
+                comp = ">"
+            case types.EqualTo:
+                comp = "="
+            case types.NotEqualTo:
+                comp = "≠"
+            case types.LessThanEqualTo:
+                comp = "≤"
+            case types.GreaterThanEqualTo:
+                comp = "≥"
         return f"While {block.head.left.value}{comp}{block.head.right.value}\n{"".join([create_command(comm) for comm in block.body])}End"
 
 def create_command(command: types.Assign | types.Call | types.Block):
