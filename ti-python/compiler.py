@@ -52,7 +52,7 @@ def flatten_command(command: ast.AST):
         target = flatten_value(command.targets[0])
         var_value = flatten_value(command.value)
 
-        if var_value.value == "Input":
+        if type(var_value) == types.Call and var_value.value == "Input":
             return types.Call("Input", var_value.args + [target])
         return types.Assign(target, var_value)
 
