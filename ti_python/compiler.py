@@ -11,6 +11,8 @@ builtins = {
     "input": "Input",
 }  # Not common, but there may be functions that can be mapped directly to TI-BASIC functions
 
+variable_map = {} # All new variable names will be mapped to characters here
+name_map = "ABCDEFGHIJKLMNOPQRSTUVWXYZθ" # A-Z + Theta
 
 def flatten_value(
     value: ast.Constant | ast.Name | ast.Call | ast.BinOp,
@@ -25,8 +27,12 @@ def flatten_value(
         )
 
     elif type(value) == ast.Name:
-        return types.Name(value.id.upper())
+        # return types.Name(value.id.upper())
+        if value.id.upper() not in variable_map:      
+            variable_map[value.id.upper()] = name_map[len(variable_map)]
 
+        return types.Name(variable_map[value.id.upper()])
+        
     elif type(value) == ast.Expr:
         return flatten_value(value.value)
 

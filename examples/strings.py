@@ -1,5 +1,5 @@
-x = "Hello"
+prefix = "Hello"
 
-y = x + " World!"
+string = prefix + " World!"
 
-print(y)
+print(string)
