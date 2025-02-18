@@ -26,6 +26,18 @@ See `examples/` for example programs
  - Basic If statements
  - Comparisons
  - While loops
+ - Strings and string operations
+
+## Goals/To Do
+ - Lists
+ - Functions
+ - Graphical output
+ - Variable mapping (allows for longer variable names)
+ - More advanced comparisons and operations (exponents, roots, `and`, `or`)
+
+Non-compiler related
+ - 8XP encoding
+ - Web TI-Basic interpreter
 
 ## Restrictions
 Your Python code still has to follow some restrictions due to the nature of the TI-BASIC.
