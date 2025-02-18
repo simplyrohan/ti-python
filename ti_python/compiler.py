@@ -105,8 +105,7 @@ def flatten_command(command: ast.AST):
 
         return types.While(comparison, body)
 
-
-def compile(tree: ast.Module):
+def compile_tree(tree: ast.Module):
     compiled = ""
     for item in tree.body:
         command = flatten_command(item)

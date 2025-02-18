@@ -2,11 +2,19 @@
 A versatile compiler to make TI-BASIC programs from Python 3 (with some restrictions)
 
 ## Usage
+**CLI**
 ```
 python -m ti_python --help
 ```
 ```
 python -m ti_python examples/helloworld.py
+```
+
+**Python**
+```py
+from ti_python import compile
+code = "print('Hello World!')"
+print(compile(code))
 ```
 
 See `examples/` for example programs
