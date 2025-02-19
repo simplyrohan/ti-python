@@ -1,11 +1,22 @@
 # TI-Python
 A versatile compiler to make TI-BASIC programs from Python 3 (with some restrictions)
 
+## Installation
+```
+pip install ti-python
+```
+
 ## Usage
 **CLI**
 ```
 python -m ti_python --help
 ```
+or
+```
+ti-python --help
+```
+<br>
+
 ```
 python -m ti_python examples/helloworld.py
 ```

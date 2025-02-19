@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ti-python"
+version = "0.1.2"
+description = "A versatile compiler to make TI-BASIC programs with Python 3 syntax"
+readme = "README.md"
+authors = [
+    {name = "simplyrohan"}
+]
+license = {text = "GPL-3.0-or-later"}
+requires-python = ">=3.9"
+dependencies = []
+
+[project.scripts]
+ti-python = "ti_python.__main__:main"
+
+
+[project.urls]
+Homepage = "https://github.com/simplyrohan/ti-python"
+Repository = "https://github.com/simplyrohan/ti-python"

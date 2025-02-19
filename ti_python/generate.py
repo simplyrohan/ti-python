@@ -56,7 +56,8 @@ def create_block(block: types.Block):
             comp = "≥"
 
         if issubclass(type(block), types.If):
-            return f"If {block.head.left.value}{comp}{block.head.right.value}\nThen\n{'\n'.join([create_command(comm) for comm in block.body])}\nEnd"
+            nl = "\n"
+            return f"If {block.head.left.value}{comp}{block.head.right.value}\nThen\n{nl.join([create_command(comm) for comm in block.body])}\nEnd"
         else:
             return f"While {block.head.left.value}{comp}{block.head.right.value}\n{''.join([create_command(comm) for comm in block.body])}End"
 

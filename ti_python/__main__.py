@@ -21,7 +21,8 @@ parser.add_argument(
     default=None,
 )
 
-if __name__ == "__main__":
+
+def main():
     args = parser.parse_args()
 
     input_file = pathlib.Path(args.input)
@@ -36,3 +37,6 @@ if __name__ == "__main__":
     output_path.write_text(compile(input_file.read_text()))
 
     print("Compiled and written to", output_path.absolute())
+
+if __name__ == "__main__":
+    main()
