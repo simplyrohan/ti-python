@@ -32,14 +32,14 @@ keywords = [
     "DARKGRAY",
 ]
 
-variable_map = {} # All new variable names will be mapped to characters here
-name_map = "ABCDEFGHIJKLMNOPQRSTUVWXYZθ" # A-Z + Theta
+variable_map = {}  # All new variable names will be mapped to characters here
+name_map = "ABCDEFGHIJKLMNOPQRSTUVWXYZθ"  # A-Z + Theta
+
 
 def flatten_value(
     value: ast.Constant | ast.Name | ast.Call | ast.BinOp,
 ) -> types.Type | types.Call | types.Assign:
     "Converts any constant, variable, or expression (and their children) into a single `Type` object"
-
     if type(value) == ast.Constant:
         return (
             types.Str(value.value)
@@ -50,12 +50,12 @@ def flatten_value(
     elif type(value) == ast.Name:
         if value.id.upper() in keywords:
             return types.Name(value.id.upper())
-        
-        if value.id.upper() not in variable_map:      
+
+        if value.id.upper() not in variable_map:
             variable_map[value.id.upper()] = name_map[len(variable_map)]
 
         return types.Name(variable_map[value.id.upper()])
-        
+
     elif type(value) == ast.Expr:
         return flatten_value(value.value)
 
@@ -105,6 +105,9 @@ def flatten_value(
     elif type(value) == ast.List:
         return types.List([flatten_value(v) for v in value.elts])
 
+    elif type(value) == ast.Subscript:
+        return types.Slice(flatten_value(value.slice), flatten_value(value.value))
+
 
 def flatten_command(command: ast.AST):
     "This to to convert non-value items into an object (eg. Assigment, Loop, etc)"
@@ -136,6 +139,7 @@ def flatten_command(command: ast.AST):
         body = [flatten_command(comm) for comm in command.body]
 
         return types.While(comparison, body)
+
 
 def compile_tree(tree: ast.Module):
     compiled = ""

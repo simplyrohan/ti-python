@@ -40,6 +40,9 @@ def assign_val(assign: types.Assign):
     if type(assign.value) == types.List:
         return create_val(assign.value) + f"→∟{assign.target.value.upper()}"
             
+    if type(assign.target) == types.Slice:
+        return create_val(assign.value) + f"→∟{assign.target.value.value.upper()}({assign.target.slice.value + 1})"
+    
     return create_val(assign.value) + f"→{assign.target.value.upper()}"
 
 

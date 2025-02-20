@@ -25,6 +25,7 @@ class Name(Type):
 
 class List(Type):
     value: list[Type]
+    
 
 # --- Calls, Assigns, and Control Flow
 @dataclasses.dataclass
@@ -96,3 +97,9 @@ class LessThanEqualTo(Comp):
 
 class GreaterThanEqualTo(Comp):
     pass
+
+# Misc
+@dataclasses.dataclass
+class Slice:
+    slice: Number
+    value: Name
