@@ -14,23 +14,23 @@ builtins = {
     "pixel_off": "Pxl-Off(",
 }  # Not common, but there may be functions that can be mapped directly to TI-BASIC functions
 
-# keywords = [
-#     "BLUE",
-#     "RED",
-#     "BLACK",
-#     "MAGENTA",
-#     "GREEN",
-#     "ORANGE",
-#     "BROWN",
-#     "NAVY",
-#     "LTBLUE",
-#     "YELLOW",
-#     "WHITE",
-#     "LTGRAY",
-#     "MEDGRAY",
-#     "GRAY",
-#     "DARKGRAY",
-# ]
+keywords = [
+    "BLUE",
+    "RED",
+    "BLACK",
+    "MAGENTA",
+    "GREEN",
+    "ORANGE",
+    "BROWN",
+    "NAVY",
+    "LTBLUE",
+    "YELLOW",
+    "WHITE",
+    "LTGRAY",
+    "MEDGRAY",
+    "GRAY",
+    "DARKGRAY",
+]
 
 variable_map = {} # All new variable names will be mapped to characters here
 name_map = "ABCDEFGHIJKLMNOPQRSTUVWXYZθ" # A-Z + Theta
@@ -48,9 +48,8 @@ def flatten_value(
         )
 
     elif type(value) == ast.Name:
-        # return types.Name(value.id.upper())
-        # if value.id.upper() in keywords:
-        #     return types.Name(value.id.upper())
+        if value.id.upper() in keywords:
+            return types.Name(value.id.upper())
         
         if value.id.upper() not in variable_map:      
             variable_map[value.id.upper()] = name_map[len(variable_map)]
@@ -102,6 +101,9 @@ def flatten_value(
             return types.NotEqualTo(
                 flatten_value(value.left), flatten_value(value.comparators[0])
             )
+
+    elif type(value) == ast.List:
+        return types.List([flatten_value(v) for v in value.elts])
 
 
 def flatten_command(command: ast.AST):

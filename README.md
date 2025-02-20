@@ -58,3 +58,4 @@ These are known restrictions, but this compiler is still in development so of co
 
 ## Resources and References Used
 [TI-BASIC usage](http://tibasicdev.wikidot.com/starter-kit)
+[More TI-BASIC Docs](https://learn.cemetech.net/)

@@ -23,6 +23,8 @@ class Var(Type):
 class Name(Type):
     pass
 
+class List(Type):
+    value: list[Type]
 
 # --- Calls, Assigns, and Control Flow
 @dataclasses.dataclass

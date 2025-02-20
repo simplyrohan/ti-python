@@ -24,7 +24,8 @@ def create_val(val):
         elif type(val) == types.Div:
             op = "/"
         return f"{create_val(val.left)}{op}{create_val(val.right)}"
-
+    elif type(val) == types.List:
+        return "{" + ",".join(create_val(v) for v in val.value + "}")
 
 def call_func(call: types.Call):
     arguments = []
@@ -36,6 +37,9 @@ def call_func(call: types.Call):
 
 
 def assign_val(assign: types.Assign):
+    if type(assign.value) == types.List:
+        return create_val(assign.value) + f"→∟{assign.target.value.upper()}"
+            
     return create_val(assign.value) + f"→{assign.target.value.upper()}"
 
 
