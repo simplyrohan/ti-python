@@ -25,7 +25,7 @@ def create_val(val):
             op = "/"
         return f"{create_val(val.left)}{op}{create_val(val.right)}"
     elif type(val) == types.List:
-        return "{" + ",".join(create_val(v) for v in val.value + "}")
+        return "{" + ",".join(create_val(v) for v in val.value) + "}"
 
 def call_func(call: types.Call):
     arguments = []
