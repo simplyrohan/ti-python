@@ -7,9 +7,30 @@ import ast
 from . import generate, types
 
 builtins = {
-    "print": "Disp",
-    "input": "Input",
+    "print": "Disp ",
+    "input": "Input ",
+    "clear_screen": "ClrDraw",
+    "pixel_on": "Pxl-On(",
+    "pixel_off": "Pxl-Off(",
 }  # Not common, but there may be functions that can be mapped directly to TI-BASIC functions
+
+# keywords = [
+#     "BLUE",
+#     "RED",
+#     "BLACK",
+#     "MAGENTA",
+#     "GREEN",
+#     "ORANGE",
+#     "BROWN",
+#     "NAVY",
+#     "LTBLUE",
+#     "YELLOW",
+#     "WHITE",
+#     "LTGRAY",
+#     "MEDGRAY",
+#     "GRAY",
+#     "DARKGRAY",
+# ]
 
 variable_map = {} # All new variable names will be mapped to characters here
 name_map = "ABCDEFGHIJKLMNOPQRSTUVWXYZθ" # A-Z + Theta
@@ -28,6 +49,9 @@ def flatten_value(
 
     elif type(value) == ast.Name:
         # return types.Name(value.id.upper())
+        # if value.id.upper() in keywords:
+        #     return types.Name(value.id.upper())
+        
         if value.id.upper() not in variable_map:      
             variable_map[value.id.upper()] = name_map[len(variable_map)]
 
@@ -87,8 +111,8 @@ def flatten_command(command: ast.AST):
         target = flatten_value(command.targets[0])
         var_value = flatten_value(command.value)
 
-        if type(var_value) == types.Call and var_value.value == "Input":
-            return types.Call("Input", var_value.args + [target])
+        if type(var_value) == types.Call and var_value.value == "Input ":
+            return types.Call("Input ", var_value.args + [target])
         return types.Assign(target, var_value)
 
     elif type(command) == ast.Expr:

@@ -4,3 +4,4 @@ python -m ti_python examples/count.py
 python -m ti_python examples/age.py
 python -m ti_python examples/sum.py
 python -m ti_python examples/strings.py
+python -m ti_python examples/graphics.py

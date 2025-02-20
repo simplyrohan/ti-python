@@ -32,7 +32,7 @@ def call_func(call: types.Call):
     if call.args:
         for arg in call.args:
             arguments.append(create_val(arg))
-    return f"{call.value} {','.join(arguments)}"
+    return f"{call.value}{','.join(arguments)}"
 
 
 def assign_val(assign: types.Assign):

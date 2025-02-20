@@ -38,11 +38,12 @@ See `examples/` for example programs
  - Comparisons
  - While loops
  - String operations
+ - Pixel graphics functions (use `clear_screen()` and `pixel_on/off(y,x,COLOR_NAME)`)
 
 ## Goals/To Do
  - Lists
  - Functions
- - Graphical output
+ - Advanced/Polished graphical output
  - More advanced comparisons and operations (exponents, roots, `and`, `or`)
 
 Non-compiler related
