@@ -27,7 +27,7 @@ def create_val(val):
     elif type(val) == types.List:
         return "{" + ",".join(create_val(v) for v in val.value) + "}"
     elif type(val) == types.Slice:
-        return f"{create_val(val.value)}({create_val(val.slice)})"
+        return f"⌊{create_val(val.value)}({create_val(val.slice)})"
 
 
 def call_func(call: types.Call):
@@ -41,7 +41,7 @@ def call_func(call: types.Call):
 
 def assign_val(assign: types.Assign):
     if type(assign.value) == types.List:
-        return create_val(assign.value) + f"→∟{assign.target.value.upper()}"
+        return create_val(assign.value) + f"→⌊{assign.target.value.upper()}"
             
     # if type(assign.target) == types.Slice:
     #     return create_val(assign.value) + f"→∟{assign.target.value.value.upper()}({assign.target.slice.value + 1})"

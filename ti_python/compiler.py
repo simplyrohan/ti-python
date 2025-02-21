@@ -12,6 +12,7 @@ builtins = {
     "clear_screen": "ClrDraw",
     "pixel_on": "Pxl-On(",
     "pixel_off": "Pxl-Off(",
+    "draw_line": "Line(",
 }  # Not common, but there may be functions that can be mapped directly to TI-BASIC functions
 
 keywords = [
