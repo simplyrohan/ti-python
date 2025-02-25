@@ -29,7 +29,6 @@ def create_val(val):
     elif type(val) == types.Slice:
         return f"⌊{create_val(val.value)}({create_val(val.slice)})"
 
-
 def call_func(call: types.Call):
     arguments = []
 
