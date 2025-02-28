@@ -39,9 +39,9 @@ See `examples/` for example programs
  - While loops
  - String operations
  - Pixel graphics functions (use `clear_screen()` and `pixel_on/off(y,x,COLOR_NAME)`)
+ - Lists
 
 ## Goals/To Do
- - Lists
  - Functions
  - Advanced/Polished graphical output
  - More advanced comparisons and operations (exponents, roots, `and`, `or`)
@@ -53,6 +53,7 @@ Non-compiler related
 Your Python code still has to follow some restrictions due to the nature of the TI-BASIC.
  - Using `print` with commas will not insert spaces in-between 
  - The `input` function doesn't always return Strings, they can be numbers
+ - Lists are 1-indexed
 
 These are known restrictions, but this compiler is still in development so of course you will still have *many* other issues
 
