@@ -13,6 +13,21 @@ builtins = {
     "pixel_on": "Pxl-On(",
     "pixel_off": "Pxl-Off(",
     "draw_line": "Line(",
+
+    "cos": "cos(",
+    "sin": "sin(",
+    "tan": "tan(",
+    "acos": "acos(",
+    "asin": "asin(",
+    "atan": "atan(",
+    "sqrt": "√(",
+    "abs": "abs(",
+    "round": "round(",
+    "int": "int(",
+    "rand": "rand(",
+    "randint": "randInt(",
+    "randrange": "randInt(",
+    "len": "dim(",
 }  # Not common, but there may be functions that can be mapped directly to TI-BASIC functions
 
 keywords = [

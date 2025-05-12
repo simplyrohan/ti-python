@@ -11,7 +11,7 @@ def create_val(val):
     elif type(val) == types.Name:
         return f"{val.value.upper()}"
     elif type(val) == types.Call:
-        return f"{call_func(val.value)}"
+        return f"{call_func(val)}"
     elif type(val) == types.Str:
         return f'"{val.value}"'
     elif issubclass(type(val), types.Op):
