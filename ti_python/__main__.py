@@ -3,7 +3,7 @@ import argparse
 
 from . import compile
 from .error import error
-from .decompile import decompile
+from .encoder.decompile import decompile
 
 
 class ArgumentParser(argparse.ArgumentParser):
@@ -24,7 +24,8 @@ parser.add_argument(
     "-o",
     "--output",
     type=str,
-    help="Output TI-BASIC file",
+    metavar="",
+    help="output TI-BASIC file",
     required=False,
     default=None,
 )
@@ -32,7 +33,8 @@ parser.add_argument(
     "-d",
     "--decompile",
     type=str,
-    help="Decompile an 8XP file to it's TI-BASIC source",
+    metavar="",
+    help="decompile an 8XP file to it's TI-BASIC source",
     required=False,
     default=None,
 )
@@ -61,7 +63,7 @@ def main():
     elif len(args.input) == 0:
         error("no input files")
 
-    input_file = pathlib.Path(args.input)
+    input_file = pathlib.Path(args.input[0])
 
     if not input_file.exists():
         error(f"could not find input file {input_file.absolute()}")

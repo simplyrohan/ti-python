@@ -1,5 +1,5 @@
 import pathlib
-from .encoder import tokens
+from . import tokens
 
 def decompile(file: pathlib.Path, output: pathlib.Path):
     with open(file, "rb") as o:
