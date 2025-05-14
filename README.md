@@ -69,3 +69,4 @@ These are known restrictions, but this compiler is still in development so of co
 ## Resources and References Used
 [TI-BASIC usage](http://tibasicdev.wikidot.com/starter-kit)
 [More TI-BASIC Docs](https://learn.cemetech.net/)
+[8XP File Format](https://gist.github.com/SimonEast/244a0fd04526ea1acbec2e2ceb2e7924)
