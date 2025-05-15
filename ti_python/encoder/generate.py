@@ -19,13 +19,16 @@ def generateTokens(tokens, byte_prefix=""):
             string = string.replace("\\", "\\\\")
             string = string.replace('"', '\\"')
 
-            byte = byte_prefix + token.get("byte").replace("$", "\\x")
+            byte = byte_prefix + (token.get("byte") or "").replace("$", "\\x")
             out += f'"{string}": b"{byte}"' + ",\n    "
 
-        if token.get("stringTerminator") == "false":
-            out += generateTokens(
-                token.findall("{http://merthsoft.com/Tokens}Token"),
-                byte_prefix + token.get("byte").replace("$", "\\x"),
+        out += generateTokens(
+            token.findall("{http://merthsoft.com/Tokens}Token"),
+            byte_prefix + (token.get("byte") or "").replace("$", "\\x"),
+        )
+        out += generateTokens(
+                token.findall("{http://merthsoft.com/Tokens}Alt"),
+                byte_prefix + (token.get("byte") or "").replace("$", "\\x"),
             )
     return out
 

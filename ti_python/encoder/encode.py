@@ -1,6 +1,7 @@
 "Encode TI-BASIC into 8XP files"
 
 from .tokens import tokens
+from ..utils import error
 
 SIGNATURE = b"**TI83F*\x1a\x0a"
 COMMENT = b"Created by TI Python"
@@ -10,7 +11,6 @@ HEADER = SIGNATURE + b"\x0a" + COMMENT
 
 
 def encode(src: str):
-    # src = repr(src)[1:-1]
     src = src.replace("\n", "\\n")
     src += " " # fix last-character issues
     encoded = b""
@@ -20,6 +20,8 @@ def encode(src: str):
     while len(src) > 1: # remove last character
         if len(token) > 1:
             token = token[:-1]
+        else:
+            error(f"unknown token '{token}'")
 
         # Check if valid
         if token in tokens:
