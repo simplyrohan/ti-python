@@ -7,12 +7,15 @@ pip install ti-python
 ```
 Note that the PyPi package is probably severely out of date and is updated very irregularly
 
+To get the latest version
+```
+git clone https://github.com/simplyrohan/ti-python
+cd ti-python
+pip install .
+```
+
 ## Usage
 ### CLI
-```
-python -m ti_python --help
-```
-or
 ```
 ti-python --help
 ```
@@ -31,9 +34,29 @@ print(compile(code))
 
 See `examples/` for example programs
 
-### Decompiling 8XP
-`ti-python` comes with a 8XP decompiler to get the TI-BASIC source from an 8XP file
+### Output Formats
+Programs can be compiled to either TI-BASIC or to an 8XP Program to use with a TI calculator or other TI software.
 
+Compile to TI-BASIC
+```
+ti-python myprogram.py -o tibasic.txt
+```
+
+Compile to 8XP
+```
+ti-python myprogram.py -o program.8xp
+```
+
+### (De)compiling 8XP
+`ti-python` comes with a 8XP compiler and decompiler to compile TI-BASIC to an 8XP program and vice versa.
+
+
+Compile TI-BASIC program
+```
+python -m ti_python --compile myprogram.txt
+```
+
+Decompile 8XP file
 ```
 python -m ti_python --decompile myprogram.8xp
 ```
@@ -48,15 +71,12 @@ python -m ti_python --decompile myprogram.8xp
  - String operations
  - Pixel graphics functions (use `clear_screen()` and `pixel_on/off(y,x,COLOR_NAME)`)
  - Lists
- - 8XP Decompiler
+ - 8XP Decompiler/compiler
 
 ## Goals/To Do
  - Functions
  - Advanced/Polished graphical output
  - More advanced comparisons and operations (exponents, roots, `and`, `or`)
-
-Non-compiler related
- - 8XP compiler
 
 ## Restrictions
 Your Python code still has to follow some restrictions due to the nature of the TI-BASIC.
